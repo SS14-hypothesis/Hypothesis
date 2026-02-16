@@ -1,0 +1,8 @@
+- type: species
+  id: SpaceJelly
+  name: species-name-spaceJelly
+  roundStart: true
+  prototype: MobSpaceJelly
+  defaultSkinTone: "#b8b8b8"
+  dollPrototype: AppearanceSpaceJelly
+  skinColoration: Hues

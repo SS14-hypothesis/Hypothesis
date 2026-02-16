@@ -1,0 +1,230 @@
+- type: markingsGroup
+  id: SpaceJelly
+  onlyGroupWhitelisted: true
+  limits:
+    enum.HumanoidVisualLayers.Hair:
+      limit: 1
+      required: false
+    
+
+- type: entity
+  parent: BaseSpeciesAppearance
+  id: AppearanceSpaceJelly
+  name: spaceJelly appearance
+  components:
+  - type: Inventory
+    templateId: spaceJelly
+    speciesId: spaceJelly
+  - type: InitialBody
+    organs:
+      Torso: OrganSpaceJellyTorso
+      Tentecles: OrganSpaceJellyTentacles
+      TenteclesInternalL: OrganSpaceJellyInternalHandL
+      TenteclesInternalR: OrganSpaceJellyInternalHandR
+      TenteclesInternalR2: OrganSpaceJellyInternalHandR2
+  - type: HumanoidProfile
+    species: SpaceJelly
+
+- type: entity
+  parent:
+  - AppearanceSpaceJelly
+  - BaseSpeciesMob
+  - MobFlammable
+  - MobBloodstream
+  id: MobSpaceJelly
+  name: Urist McJelly
+  components:
+  - type: Fingerprint
+  - type: Blindable
+  - type: ThermalRegulator
+    metabolismHeat: 800
+    radiatedHeat: 100
+    implicitHeatRegulation: 500
+    sweatHeatRegulation: 2000
+    shiveringHeatRegulation: 2000
+    normalBodyTemperature: 310.15
+    thermalRegulationTemperatureThreshold: 2
+  - type: FireVisuals
+    alternateState: Standing
+  - type: StunVisuals
+  - type: Respirator
+    damage:
+      types:
+        Asphyxiation: -1 # WE heal in space
+    damageRecovery:
+      types:
+        Asphyxiation: -2 #wait actual air we can heal faster
+  - type: Tag
+    tags:
+    - CanPilot
+    - FootstepSound
+    - DoorBumpOpener
+    - AnomalyHost
+  - type: Reactive
+    reactions:
+    - reagents: [Water]
+      methods: [Touch]
+      effects:
+      - !type:SpawnEntityInInventory
+        slot: head
+        entity: WaterDropletHat
+    - reagents: [Water, SpaceCleaner]
+      methods: [Touch]
+      effects:
+      - !type:WashCreamPie
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: CopperBlood
+        Quantity: 300
+  - type: DamageVisuals
+    damageOverlayGroups:
+      Brute:
+        sprite: Mobs/Effects/brute_damage.rsi
+        color: "#162581"
+      Burn:
+        sprite: Mobs/Effects/burn_damage.rsi
+  - type: Speech
+    speechVerb: Arachnid
+    speechSounds: Arachnid
+    allowedEmotes: ['Click', 'Chitter']
+  - type: Vocal
+    sounds:
+      Male: UnisexArachnid
+      Female: UnisexArachnid
+      Unsexed: UnisexArachnid
+
+- type: entity
+  parent: OrganBase
+  id: OrganSpaceJelly
+  abstract: true
+  suffix: SpaceJelly
+
+- type: entity
+  parent: OrganSpaceJelly
+  id: OrganSpaceJellyInternal
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _Hypothesis/Mobs/Species/Arachnid/organs.rsi
+
+- type: entity
+  id: OrganSpaceJellyVisual
+  abstract: true
+  components:
+  - type: VisualOrgan
+    data:
+      sprite: _Hypothesis/Mobs/Species/SpaceJelly/parts.rsi
+  - type: VisualOrganMarkings
+    markingData:
+      group: SpaceJelly
+
+- type: entity
+  parent: [ OrganSpaceJelly, OrganSpaceJellyVisual ]
+  id: OrganSpaceJellyExternal
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: Mobs/Species/Arachnid/parts.rsi
+
+- type: entity
+  parent: [ OrganBaseTorso, OrganSpaceJellyExternal ]
+  id: OrganSpaceJellyTorso
+
+- type: entity
+  parent: [ OrganBase, OrganSpaceJellyExternal ]
+  id: OrganSpaceJellyTentacles
+  name: Tentacles
+  components:
+  - type: Organ
+    category: HandLeft
+  - type: HandOrgan
+    handID: left
+    data:
+      location: Left
+  - type: Sprite
+    state: l_hand
+  - type: VisualOrgan
+    layer: enum.HumanoidVisualLayers.LHand
+    data:
+      state: tentecles
+  - type: VisualOrganMarkings
+    markingData:
+      layers:
+      - LHand
+
+- type: entity
+  parent: [ OrganBase, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyInternalHandL
+  name: Tentacles
+  components:
+  - type: Organ
+    category: HandLeft
+  - type: HandOrgan
+    handID: left2
+    data:
+      location: Left
+
+- type: entity
+  parent: [ OrganBase, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyInternalHandR
+  name: Tentacles
+  components:
+  - type: Organ
+    category: HandRight
+  - type: HandOrgan
+    handID: right
+    data:
+      location: Right
+
+- type: entity
+  parent: [ OrganBase, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyInternalHandR2
+  name: Tentacles
+  components:
+  - type: Organ
+    category: HandRight
+  - type: HandOrgan
+    handID: right2
+    data:
+      location: Right
+
+- type: entity
+  parent: [ OrganBaseBrain, OrganSpriteHumanInternal, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyBrain
+
+- type: entity
+  parent: [ OrganSpaceJellyVisual, OrganBaseEyes, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyEyes
+
+- type: entity
+  parent: [ OrganBaseTongue, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyTongue
+
+- type: entity
+  parent: [ OrganBaseAppendix, OrganSpriteHumanInternal, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyAppendix
+
+- type: entity
+  parent: [ OrganBaseEars, OrganSpriteHumanInternal, OrganSpaceJellyInternal ]
+  id: OrganSpaceJellyEars
+
+- type: entity
+  parent: [ OrganBaseLungs, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  id: OrganSpaceJellyLungs
+
+- type: entity
+  parent: [ OrganBaseHeart, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  id: OrganSpaceJellyHeart
+
+- type: entity
+  parent: [ OrganBaseStomach, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  id: OrganSpaceJellyStomach
+
+- type: entity
+  parent: [ OrganBaseLiver, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  id: OrganSpaceJellyLiver
+
+- type: entity
+  parent: [ OrganBaseKidneys, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  id: OrganSpaceJellyKidneys

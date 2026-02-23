@@ -22,6 +22,7 @@
       visible: false
       shader: unshaded
       map: [ "blade" ]
+
   - type: GhostRole
     name: justice-phoron-role-name
     description: justice-phoron-role-description
@@ -70,3 +71,7 @@
 
   - type: Item
     sprite: _Hypothesis/Objects/Weapons/Melee/justice_phoron_sabre_inhands.rsi
+#    size: Ginormous
+  - type: Tag
+    tags:
+    - PhoronJustice

@@ -22,6 +22,10 @@
       TenteclesInternalL: OrganSpaceJellyInternalHandL
       TenteclesInternalR: OrganSpaceJellyInternalHandR
       TenteclesInternalR2: OrganSpaceJellyInternalHandR2
+      Heart: OrganSpaceJellyHeart
+      Stomach: OrganSpaceJellyStomach
+      Liver: OrganSpaceJellyLiver
+      Kidneys: OrganSpaceJellyKidneys
   - type: HumanoidProfile
     species: SpaceJelly
 
@@ -29,7 +33,6 @@
   parent:
   - AppearanceSpaceJelly
   - BaseSpeciesMob
-  - MobFlammable
   - MobBloodstream
   id: MobSpaceJelly
   name: Urist McJelly
@@ -44,16 +47,16 @@
     shiveringHeatRegulation: 2000
     normalBodyTemperature: 310.15
     thermalRegulationTemperatureThreshold: 2
-  - type: FireVisuals
-    alternateState: Standing
   - type: StunVisuals
-  - type: Respirator
-    damage:
+  - type: Flammable
+    fireSpread: true
+    canResistFire: true
+    damage: #per second, scales with number of fire 'stacks'
       types:
-        Asphyxiation: -1 # WE heal in space
-    damageRecovery:
-      types:
-        Asphyxiation: -2 #wait actual air we can heal faster
+        Heat: 1.5
+  - type: FireVisuals
+    sprite: \_Hypothesis\Mobs\Effects\onfire_spaceJelly.rsi
+    normalState: burning_SpaceJelly
   - type: Tag
     tags:
     - CanPilot
@@ -214,17 +217,64 @@
   id: OrganSpaceJellyLungs
 
 - type: entity
-  parent: [ OrganBaseHeart, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  parent: [ OrganBase, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
   id: OrganSpaceJellyHeart
+  components:
+  - type: Organ
+    category: Heart
+  - type: Sprite
+    layers:
+    - state: heart-on
+  - type: Metabolizer
+    maxReagents: 2
+    stages: [ Bloodstream ]
 
 - type: entity
-  parent: [ OrganBaseStomach, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  parent: [ OrganBase, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
   id: OrganSpaceJellyStomach
+  components:
+  - type: Organ
+    category: Stomach
+  - type: Stomach
+  - type: SolutionContainerManager
+    solutions:
+      stomach:
+        maxVol: 50
+  - type: Metabolizer
+    maxReagents: 3
+    stages: [ Digestion ]
+  - type: Sprite
+    layers:
+    - state: stomach
+  - type: Item
+    heldPrefix: stomach
 
 - type: entity
-  parent: [ OrganBaseLiver, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  parent: [ OrganBase, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
   id: OrganSpaceJellyLiver
+  components:
+  - type: Organ
+    category: Liver
+  - type: Sprite
+    layers:
+    - state: liver
+  - type: Item
+    heldPrefix: liver
+  - type: Metabolizer
+    maxReagents: 1
+    stages: [ Metabolites ]
 
 - type: entity
-  parent: [ OrganBaseKidneys, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
+  parent: [ OrganBase, OrganSpriteHumanInternal, OrganSpaceJellyInternal, OrganAnimalMetabolizer ]
   id: OrganSpaceJellyKidneys
+  components:
+  - type: Organ
+    category: Kidneys
+  - type: Sprite
+    layers:
+      - state: kidney-l
+      - state: kidney-r
+  - type: Item
+    heldPrefix: kidneys
+  - type: Metabolizer
+    maxReagents: 5

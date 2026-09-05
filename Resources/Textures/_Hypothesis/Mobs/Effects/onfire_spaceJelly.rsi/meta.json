@@ -1,0 +1,21 @@
+{
+    "version": 1,
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Made by Thesia",
+    "states": [
+        {
+            "name": "burning_SpaceJelly",
+            "directions": 4,
+            "delays": [
+                [ 0.1, 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1, 0.1 ],
+                [ 0.1, 0.1, 0.1, 0.1 ]
+            ]
+        }
+    ]
+}
